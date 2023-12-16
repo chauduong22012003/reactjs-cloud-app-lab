@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Thanh Toán</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Form Thanh Toán</h2>
+    <form id="paymentForm">
+      <div class="form-group">
+        <label for="cardNumber">Số thẻ</label>
+        <input type="text" class="form-control" id="cardNumber" placeholder="Nhập số thẻ">
+      </div>
+      <div class="form-group">
+        <label for="name">Tên chủ thẻ</label>
+        <input type="text" class="form-control" id="name" placeholder="Nhập tên chủ thẻ">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="expiryDate">Ngày hết hạn</label>
+          <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="cvv">CVV</label>
+          <input type="text" class="form-control" id="cvv" placeholder="Nhập CVV">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">Địa chỉ thanh toán</label>
+        <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ thanh toán">
+      </div>
+      <button type="submit" class="btn btn-primary">Thanh toán</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const form = document.getElementById('paymentForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const cardnumber = document.getElementById('cardNumber').value;
+      const name = document.getElementById('name').value;
+      const date = document.getElementById('expiryDate').value;
+      const cvc = document.getElementById('cvv').value;
+      const address = document.getElementById('address').value;
+
+      const data = {
+        cardnumber,
+        name,
+        date,
+        cvc,
+        address
+      };
+
+      try {
+        const response = await axios.post('http://localhost:3000/bill/add', JSON.stringify(data), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log(response.data);
+        alert("thanh cong!")
+      } catch (error) {
+        console.error(error);
+        // Handle any errors that occurred during the request
+      }
+    });
+  </script>
+</body>
+</html>
